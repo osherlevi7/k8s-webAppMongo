@@ -63,3 +63,14 @@
     $ kubectl apply -f mongo-deployment.yaml
 ##  Create the webAppDeployment setting for the cluster
     $ kubectl apply -f webapp-deployment.yaml
+
+
+### Check the Components - 
+    $ kubectl get all [get the all cluster]
+    $ kubectl get configMap [list the config map]
+    $ kubectl get secret [list the secret serivce]    
+    $ kubectl het svc [list the routing table of the cluster]
+    $ kubectl describe service <serviceName>
+    $ minikube ip [show the ip of the minikube runner]
+    $ kubectl get node -o wide [show wide display]
+    $ kubectl get svc -o wide 
