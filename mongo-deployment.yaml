@@ -1,0 +1,48 @@
+# Blue Print deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    app: mongo
+spec: 
+  replicas: 1 
+  # which pods belong to the deployment labels
+  selector: 
+    matchLabels: 
+      app: mongo
+  template:
+    metadata: 
+      labels:
+        app: mongo
+    spec: 
+      containers:
+      - name: mongodb
+        image: mongo:5.0
+        ports:
+        - containerPort: 27017
+        # Username & password for DB FROM > Secret 
+        env: 
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: mongo-user
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: mongo-password
+---
+# Part 2 - Service for exposing the requests to the mogo service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec: 
+  selector: 
+    app: mongo
+  ports: 
+    - protocol: TCP
+      port: 8080
+      targetPort: 27017
